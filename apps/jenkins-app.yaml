@@ -1,0 +1,28 @@
+project: default
+source:
+  repoURL: 'https://charts.bitnami.com/bitnami'
+  targetRevision: 12.4.0
+  helm:
+    parameters:
+      - name: service.type
+        value: NodePort
+      - name: persistence.enabled
+        value: 'false'
+      - name: jenkinsPassword
+        value: student
+  chart: jenkins
+destination:
+  server: 'https://kubernetes.default.svc'
+  namespace: student-5
+syncPolicy:
+  automated: {}
+sources:
+  - repoURL: 'https://charts.bitnami.com/bitnami'
+    targetRevision: 12.4.0
+    helm:
+      valueFiles:
+        - $values/jenkins/values.yaml
+    chart: jenkins
+  - repoURL: 'https://github.com/mobra66/argocd-katas-training.git'
+    targetRevision: main
+    ref: values
